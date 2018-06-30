@@ -5,6 +5,9 @@
     <ul class="list-group">
         <li ng-repeat="item in groceryItems | orderBy: 'date'" class="list-group-item text-center clearfix">
             <span>{{ item.id + ' ' + item.itemName + ' ' + item.date | uppercase }}</span>
+            <button type="button" class="btn btn-sm btn-danger pull-right" ng-click="removeItem(item)">
+                <span class="glyphicon glyphicon-trash"></span>
+            </button>
             <a href="#!/addItem/edit/{{ item.id }}" class="btn btn-sm btn-default pull-right">
                 <span class="glyphicon glyphicon-pencil"></span>
             </a>
