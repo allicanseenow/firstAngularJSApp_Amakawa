@@ -92,6 +92,10 @@ app.service('GroceryService', function() {
         }
     };
 
+    groceryService.markCompleted = (entry) => {
+        entry.completed = !entry.completed;
+    };
+
     return groceryService;
 });
 
@@ -100,6 +104,10 @@ app.controller("HomeController", ["$scope", 'GroceryService', function($scope, G
 
     $scope.removeItem = function(entry) {
         GroceryService.removeItem(entry);
+    };
+
+    $scope.markCompleted = function(entry) {
+        GroceryService.markCompleted(entry);
     };
 }]);
 
@@ -127,3 +135,10 @@ app.controller("GroceryListItemsController", ["$scope", '$routeParams', '$locati
 
     $scope.rp = `Route param value: ${$routeParams.id}`;
 }]);
+
+app.directive('tbGroceryItem', function() {
+    return {
+        restrict: 'E',
+        templateUrl: 'views/groceryItem.html'
+    };
+});
