@@ -4,7 +4,10 @@
     </a>
     <ul class="list-group">
         <li ng-repeat="item in groceryItems | orderBy: 'date'" class="list-group-item text-center clearfix">
-            <span>{{ item.itemName + ' ' + item.date | uppercase }}</span>
+            <span>{{ item.id + ' ' + item.itemName + ' ' + item.date | uppercase }}</span>
+            <a href="#!/addItem/edit/{{ item.id }}" class="btn btn-sm btn-default pull-right">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
         </li>
     </ul>
 </div>
