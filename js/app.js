@@ -33,19 +33,20 @@ app.config(function($routeProvider, $locationProvider) {
 });
 
 
-app.service('GroceryService', function() {
+app.service('GroceryService', function($http) {
     const groceryService = {};
 
-    groceryService.groceryItems =  [
-        { id: 1, itemName: 'milk', date: new Date(), completed: true },
-        { id: 2, itemName: 'cookies', date: new Date(), completed: true },
-        { id: 3, itemName: 'ice cream', date: new Date(), completed: false, },
-        { id: 4, itemName: 'potatoes', date: new Date(), completed: true },
-        { id: 5, itemName: 'cereal', date: new Date(), completed: true },
-        { id: 7, itemName: 'bread', date: new Date(), completed: false },
-        { id: 8, itemName: 'eggs', date: new Date(), completed: true },
-        { id: 10, itemName: 'tortillas', date: new Date(), completed: false }
-    ];
+    groceryService.groceryItems =  [];
+
+    $http.get('data/server_data1.json')
+        .then((res) => {
+            groceryService.groceryItems = res.data;
+            _.forEach(groceryService.groceryItems, (item, index) => {
+                groceryService.groceryItems[index].date = new Date(item.date);
+            });
+        }, (res) => {
+            alert("HTTP Get error");
+        });
 
     groceryService.findById = (id) => {
         return _.find(groceryService.groceryItems, (item) => {
@@ -55,23 +56,19 @@ app.service('GroceryService', function() {
 
     groceryService.removeItem = function(entry) {
         const index = groceryService.groceryItems.indexOf(entry);
-        console.log('index is ', index)
         groceryService.groceryItems.splice(index, 1);
     };
 
     groceryService.getNewId = () => {
         if (groceryService.newId) {
-            console.log('groceryService.newId is ', groceryService.newId);
             return ++groceryService.newId;
         }
         else {
-            console.log('roceryService.groceryItems is ', groceryService.groceryItems)
             if (_.isEmpty(groceryService.groceryItems)) {
                 groceryService.newId = 1;
                 return groceryService.newId;
             }
             let maxId = _.maxBy(groceryService.groceryItems, (item) => { return item.id });
-            console.log('maxId is ', maxId);
             groceryService.newId = maxId.id + 1;
             return groceryService.newId;
         }
@@ -79,14 +76,11 @@ app.service('GroceryService', function() {
 
     groceryService.save = (entry) => {
         const updateItem = groceryService.findById(entry.id);
-        console.log('update item is ', updateItem);
         if (updateItem) {
             _.merge(updateItem, entry);
         }
         else {
             entry.id = groceryService.getNewId();
-            console.log('entry is ', entry);
-            console.log('groceryService.groceryItem is ', groceryService.groceryItem)
             groceryService.groceryItems.push(entry);
             console.log('groceryService.groceryItem after i s ', groceryService.groceryItem)
         }
@@ -109,6 +103,13 @@ app.controller("HomeController", ["$scope", 'GroceryService', function($scope, G
     $scope.markCompleted = function(entry) {
         GroceryService.markCompleted(entry);
     };
+
+    // Used after the HTTP request is given a response and the callback is triggered
+    $scope.$watch(function() {
+        return GroceryService.groceryItems;
+    }, (groceryItems) => {
+        $scope.groceryItems = groceryItems;
+    });
 }]);
 
 app.controller("GroceryListItemsController", ["$scope", '$routeParams', '$location', 'GroceryService', function($scope, $routeParams, $location, GroceryService){

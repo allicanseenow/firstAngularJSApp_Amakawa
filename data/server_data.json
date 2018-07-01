@@ -1,0 +1,41 @@
+[{
+  "id": 1,
+  "itemName": "milk",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": true
+}, {
+  "id": 2,
+  "itemName": "cookies",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": true
+}, {
+  "id": 3,
+  "itemName": "ice cream",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": false
+}, {
+  "id": 4,
+  "itemName": "potatoes",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": true
+}, {
+  "id": 5,
+  "itemName": "cereal",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": true
+}, {
+  "id": 7,
+  "itemName": "bread",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": false
+}, {
+  "id": 8,
+  "itemName": "eggs",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": true
+}, {
+  "id": 10,
+  "itemName": "tortillas",
+  "date": "2018-07-01T01:14:37.776Z",
+  "completed": false
+}]
